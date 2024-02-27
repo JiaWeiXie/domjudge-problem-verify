@@ -7,7 +7,9 @@ from utils.file import save_pdf, open_pdf
 st.set_page_config(page_title="題目預覽", page_icon="📄")
 st.sidebar.header("題目預覽")
 
-problem_pdf = st.sidebar.file_uploader("上傳題目", type="pdf", help="請上傳題目 PDF 檔案")
+problem_pdf = st.sidebar.file_uploader(
+    "上傳題目", type="pdf", help="請上傳題目 PDF 檔案"
+)
 redner_option = st.sidebar.radio("PDF 顯示方式", ["Embedded", "Iframe"])
 
 

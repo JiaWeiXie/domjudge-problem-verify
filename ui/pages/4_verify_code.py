@@ -136,11 +136,15 @@ if st.button("執行"):
             exec_time_block.metric(label="程式執行時間", value=f"{exec_time} 秒")
             if exec_memory > 1024:
                 exec_memory = exec_memory / 1024
-                exec_memory_block.metric(label="記憶體使用量", value=f"{exec_memory:.2f} MB")
+                exec_memory_block.metric(
+                    label="記憶體使用量", value=f"{exec_memory:.2f} MB"
+                )
             else:
-                exec_memory_block.metric(label="記憶體使用量", value=f"{exec_memory} KB")
+                exec_memory_block.metric(
+                    label="記憶體使用量", value=f"{exec_memory} KB"
+                )
             st.divider()
-        
+
         if submission["status"]["id"] == 3:
             st.success(submission["status"]["description"])
         else:

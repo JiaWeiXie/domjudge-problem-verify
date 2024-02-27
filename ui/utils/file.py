@@ -35,13 +35,13 @@ def remove_tmp_folder():
         if os.path.exists(tmp_folder):
             shutil.rmtree(tmp_folder)
         del st.session_state["tmp_folder"]
-        
+
     if "zip_file" in st.session_state:
         zip_file = st.session_state["zip_file"]
         if os.path.exists(zip_file):
             os.remove(zip_file)
         del st.session_state["zip_file"]
-        
+
     if "temp_folders" in st.session_state:
         temp_folders = st.session_state["temp_folders"]
         for folder in temp_folders:
@@ -89,6 +89,14 @@ def delete_file(path):
     filepath = os.path.join(tmp_folder, path)
     if os.path.exists(filepath):
         os.remove(filepath)
+
+
+def delete_folder_files(path):
+    tmp_folder = get_tmp_folder()
+    filepath = os.path.join(tmp_folder, path)
+    if os.path.exists(filepath):
+        for file in os.listdir(filepath):
+            os.remove(os.path.join(filepath, file))
 
 
 # get or create file from temp folder, and return file content

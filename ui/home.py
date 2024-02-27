@@ -21,9 +21,15 @@ def clear_state():
 st.sidebar.button("清除暫存資料", on_click=clear_state)
 
 content = """
-一些說明 .....
-....
-....
+目前只能上傳 .zip 檔案，並且只能上傳一個檔案，請確認檔案內容為題目 PDF 檔案。\n
+當前支援的功能有：\n
+- 從現有 Domjudge 格式 zip 檔題目開始 \n
+- 上傳題目 PDF 檔案 \n
+- 上傳測資檔案 \n
+- 編輯測資檔案 \n
+- 新增驗證測資程式 \n
+- 批次驗證測資 \n
+- 儲存成 Domjudge 格式 zip 檔 \n
 """
 
 st.write(content)

@@ -26,6 +26,7 @@ source_code = open_file("code", source_code_path) if source_code_path else ""
 with st.expander("顯示程式碼"):
     st.code(source_code, line_numbers=True)
 
+
 @st.cache_resource
 def new_judge_client():
     return Judge0Client()
@@ -46,7 +47,7 @@ language_id = language_map[language]
 show_path, show_count, exec_bt, batch_bt = st.columns(4)
 
 files = []
-data_folder = None  
+data_folder = None
 if folder_option is not None:
     data_folder = os.path.join("data", folder_option)
     show_path.write(data_folder)
@@ -55,7 +56,6 @@ if folder_option is not None:
     show_count.write(f"共有 {case_count} 筆測資")
 
 st.divider()
-
 
 
 if data_folder and exec_bt.button("個別執行驗證"):
@@ -84,7 +84,7 @@ if data_folder and exec_bt.button("個別執行驗證"):
             stderr = submission["stderr"]
             compile_output = submission["compile_output"]
             st.divider()
-            
+
             if submission["status"]["id"] == 3:
                 st.success(submission["status"]["description"])
             else:
@@ -140,28 +140,30 @@ if data_folder and batch_bt.button("批次執行驗證"):
             testcases.append([in_data, ans_data])
         submissions_result = judge_client.create_batch_submissions(data)
         submission_tokens = [
-            result["token"] 
-            for result in submissions_result
-            if "token" in result
+            result["token"] for result in submissions_result if "token" in result
         ]
         if submission_tokens:
             tokens_string = ",".join(submission_tokens)
             submissions = judge_client.get_batch_submissions(tokens_string)
-            count = len([
-                submission
-                for submission in submissions["submissions"]
-                if submission["status"]["id"] >= 3
-            ])
-            while count < len(submission_tokens):
-                submissions = judge_client.get_batch_submissions(tokens_string)
-                count = len([
+            count = len(
+                [
                     submission
                     for submission in submissions["submissions"]
                     if submission["status"]["id"] >= 3
-                ])
+                ]
+            )
+            while count < len(submission_tokens):
+                submissions = judge_client.get_batch_submissions(tokens_string)
+                count = len(
+                    [
+                        submission
+                        for submission in submissions["submissions"]
+                        if submission["status"]["id"] >= 3
+                    ]
+                )
                 st.toast(f"已完成 {count} 筆測資")
                 time.sleep(1)
-            
+
             st.toast("已完成所有測資")
             for idx, submission in enumerate(submissions["submissions"]):
                 in_data, ans_data = testcases[idx]
@@ -171,7 +173,7 @@ if data_folder and batch_bt.button("批次執行驗證"):
                 stderr = submission["stderr"]
                 compile_output = submission["compile_output"]
                 st.divider()
-                
+
                 if submission["status"]["id"] == 3:
                     st.success(submission["status"]["description"])
                 else:
@@ -207,4 +209,3 @@ if data_folder and batch_bt.button("批次執行驗證"):
                             readonly=True,
                             key=f"right_block_ace_b{idx}",
                         )
-            

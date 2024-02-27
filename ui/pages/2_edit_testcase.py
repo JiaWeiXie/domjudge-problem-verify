@@ -13,6 +13,7 @@ from utils.file import (
     folder_exists,
     pair_files,
     get_next_filename,
+    delete_folder_files,
 )
 from utils.text import normalization_text
 
@@ -23,12 +24,35 @@ st.title("測資編輯")
 with st.sidebar:
     if not folder_exists("data/sample"):
         st.button("新增範例測資", on_click=lambda: create_folder("data/sample"))
-        
+
     if not folder_exists("data/secret"):
         st.button("新增隱藏測資", on_click=lambda: create_folder("data/secret"))
 
 
-folder_option = st.selectbox("選擇測資類型", list_folder("data"))
+folder_option = st.sidebar.selectbox("選擇測資類型", list_folder("data"))
+
+if folder_option:
+    if st.sidebar.button("刪除所有測資"):
+        with st.spinner("刪除中"):
+            delete_folder_files(os.path.join("data", folder_option))
+            time.sleep(1)
+        st.success("刪除成功")
+        st.rerun()
+
+    testcase_files = st.sidebar.file_uploader(
+        "上傳測資檔案",
+        type=["in", "ans"],
+        accept_multiple_files=True,
+        help="檔案名稱需為數字，且需為 .in 或 .ans 結尾，允許上傳多個檔案。",
+    )
+    st.sidebar.write("請同時上傳測資檔案與答案檔案，檔案名稱需相同，ex: 1.in, 1.ans。")
+    if testcase_files and st.sidebar.button("確認上傳"):
+        data_folder = os.path.join("data", folder_option)
+        for testcase_file in testcase_files:
+            bytes_data = testcase_file.read().decode("utf-8")
+            save_file(data_folder, testcase_file.name, bytes_data)
+            st.success(f"上傳 {testcase_file.name} 成功")
+        st.rerun()
 
 
 def delete_testcase(*paths):

@@ -46,7 +46,7 @@ class Judge0Client:
         url = self.base_url + "/submissions/batch?base64_encoded=false"
         response = self.session.post(url, json={"submissions": data})
         return response.json()
-    
+
     def get_batch_submissions(self, tokens: str):
         url = self.base_url + "/submissions/batch"
         response = self.session.get(
