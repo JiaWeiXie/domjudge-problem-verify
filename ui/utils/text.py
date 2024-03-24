@@ -5,11 +5,15 @@ WINDOWS_LINE_ENDING = b"\r\n"
 UNIX_LINE_ENDING = b"\n"
 
 
-def normalization_text(txt: str) -> str:
+def normalization_text(txt: str, trim: bool = False) -> str:
     contexts = []
     txt = txt.encode("utf-8").replace(WINDOWS_LINE_ENDING, UNIX_LINE_ENDING).decode()
     for line in txt.splitlines():
-        s = line.strip()
+        if trim:
+            s = line.strip()
+        else:
+            s = line
+
         if s:
             contexts.append(s)
 

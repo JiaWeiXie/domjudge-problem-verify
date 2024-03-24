@@ -101,10 +101,11 @@ if folder_option is not None:
                 auto_update=True,
             )
 
+    trim_whitespace = st.toggle("是否去除測資前後空白", False, key="trim_whitespace")
     if st.button("儲存"):
         with st.spinner("儲存中"):
             for path_name, data in testcases.items():
-                save_file("", path_name, normalization_text(data))
+                save_file("", path_name, normalization_text(data, trim_whitespace))
             time.sleep(1)
 
         st.success("儲存成功")
