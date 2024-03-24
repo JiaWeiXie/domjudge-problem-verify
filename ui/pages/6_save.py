@@ -12,6 +12,8 @@ file_name = ""
 if "file_name" in st.session_state:
     file_name = st.session_state["file_name"] or "problem"
     file_name = st.text_input("壓縮檔名稱", value=file_name)
+else:
+    file_name = st.text_input("壓縮檔名稱")
 
 
 if file_name and st.button("製作 .zip 檔案"):
